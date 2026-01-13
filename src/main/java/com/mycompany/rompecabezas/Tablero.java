@@ -115,4 +115,57 @@ public class Tablero {
             return "";
         }
     }
+
+    // Verifica si el tablero está resuelto (todos los bordes adyacentes coinciden).
+    public boolean estaResuelto() {
+        for (int i = 0; i < tamaño; i++) {
+            for (int j = 0; j < tamaño; j++) {
+                Pieza actual = piezas[i][j];
+
+                // Verificar con pieza de abajo
+                if (i < tamaño - 1) {
+                    Pieza abajo = piezas[i + 1][j];
+                    if (actual.abajo != abajo.arriba) {
+                        return false;
+                    }
+                }
+
+                // Verificar con pieza de la derecha
+                if (j < tamaño - 1) {
+                    Pieza derecha = piezas[i][j + 1];
+                    if (actual.derecha != derecha.izquierda) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    // Obtiene la pieza en la posición (fila, columna).
+    public Pieza getPieza(int fila, int columna) {
+        return piezas[fila][columna];
+    }
+
+    // Obtiene el tamaño del tablero.
+    public int getTamaño() {
+        return tamaño;
+    }
+
+    // Crea una copia del tablero
+    public Tablero copiar() {
+        Tablero copia = new Tablero();
+        copia.tamaño = this.tamaño;
+        copia.piezas = new Pieza[tamaño][tamaño];
+        for (int i = 0; i < tamaño; i++) {
+            for (int j = 0; j < tamaño; j++) {
+                copia.piezas[i][j] = this.piezas[i][j].copiar();
+            }
+        }
+        return copia;
+    }
+
+    // Constructor privado para copiar
+    private Tablero() {
+    }
 }

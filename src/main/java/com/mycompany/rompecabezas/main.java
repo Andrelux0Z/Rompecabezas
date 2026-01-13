@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.rompecabezas;
 
 import java.util.Scanner;
 
-/**
- *
- * @author andre
- */
-public class Rompecabezas {
+public class main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -24,10 +16,69 @@ public class Rompecabezas {
         System.out.println("- Valores en las piezas: 0 a " + maxValorPieza);
 
         // Crear y mostrar el tablero
-        Tablero tablero = new Tablero(tamañoTablero, maxValorPieza);
-        tablero.mostrar();
+        Tablero tableroOriginal = new Tablero(tamañoTablero, maxValorPieza);
+        tableroOriginal.mostrar();
+
+        // Bucle para resolver con diferentes algoritmos
+        while (true) {
+            int algoritmo = pedirAlgoritmo(scanner);
+
+            if (algoritmo == 0) {
+                System.out.println("\nSaliendo del programa.");
+                break;
+            }
+
+            // Crear copia del tablero original para resolver
+            Tablero tablero = tableroOriginal.copiar();
+
+            Solucionador solucionador;
+
+            switch (algoritmo) {
+                case 1:
+                    solucionador = new FuerzaBrutaSolucionador();
+                    break;
+                case 2:
+                    solucionador = new AvanceRapidoSolucionador();
+                    break;
+                case 3:
+                    solucionador = new GeneticoSolucionador();
+                    break;
+                default:
+                    solucionador = null;
+                    break;
+            }
+
+            if (solucionador != null) {
+                solucionador.resolver(tablero);
+            }
+        }
 
         scanner.close();
+    }
+
+    private static int pedirAlgoritmo(Scanner scanner) {
+        int opcion;
+
+        while (true) {
+            System.out.println();
+            System.out.println("Seleccione el algoritmo para resolver el rompecabezas:");
+            System.out.println("1. Fuerza bruta");
+            System.out.println("2. Avance rápido");
+            System.out.println("3. Genético");
+            System.out.println("0. Salir");
+            System.out.print("Opción (0-3): ");
+
+            if (scanner.hasNextInt()) {
+                opcion = scanner.nextInt();
+                if (opcion >= 0 && opcion <= 3) {
+                    return opcion;
+                }
+            } else {
+                scanner.next();
+            }
+
+            System.out.println("Opción no válida. Intente de nuevo.\n");
+        }
     }
 
     private static int pedirTamanoTablero(Scanner scanner) {
@@ -51,7 +102,7 @@ public class Rompecabezas {
                     return opcionesTamano[opcion - 1];
                 }
             } else {
-                scanner.next(); // limpiar entrada no numérica
+                scanner.next();
             }
 
             System.out.println("Opción no válida. Intente de nuevo.\n");
@@ -76,7 +127,7 @@ public class Rompecabezas {
                     return 15;
                 }
             } else {
-                scanner.next(); // limpiar entrada no numérica
+                scanner.next();
             }
 
             System.out.println("Opción no válida. Intente de nuevo.\n");

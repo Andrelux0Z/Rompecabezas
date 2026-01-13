@@ -38,4 +38,9 @@ public class Pieza {
         abajo = izquierda;
         izquierda = temp;
     }
+
+    // Crear una copia de la pieza
+    public Pieza copiar() {
+        return new Pieza(arriba, izquierda, derecha, abajo);
+    }
 }
