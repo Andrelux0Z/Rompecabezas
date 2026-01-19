@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.rompecabezas;
 
-/**
- *
- * @author andre
- */
 public class Pieza {
     int arriba;
     int izquierda;
@@ -21,26 +13,13 @@ public class Pieza {
         this.abajo = abajo;
     }
 
-    // Rotar la pieza 90 grados en sentido horario
-    public void rotarHorario() {
-        int temp = arriba;
-        arriba = izquierda;
-        izquierda = abajo;
-        abajo = derecha;
-        derecha = temp;
-    }
-
-    // Rotar la pieza 90 grados en sentido antihorario
-    public void rotarAntihorario() {
-        int temp = arriba;
-        arriba = derecha;
-        derecha = abajo;
-        abajo = izquierda;
-        izquierda = temp;
-    }
-
     // Crear una copia de la pieza
     public Pieza copiar() {
         return new Pieza(arriba, izquierda, derecha, abajo);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%d,%d,%d,%d]", arriba, izquierda, derecha, abajo);
     }
 }

@@ -15,9 +15,9 @@ public class main {
         System.out.println("- Tamaño del tablero: " + tamañoTablero + "x" + tamañoTablero);
         System.out.println("- Valores en las piezas: 0 a " + maxValorPieza);
 
-        // Crear y mostrar el tablero
+        // Crear y mostrar el puzzle mezclado
         Tablero tableroOriginal = new Tablero(tamañoTablero, maxValorPieza);
-        tableroOriginal.mostrar();
+        tableroOriginal.mostrarPiezasDisponibles();
 
         // Bucle para resolver con diferentes algoritmos
         while (true) {
