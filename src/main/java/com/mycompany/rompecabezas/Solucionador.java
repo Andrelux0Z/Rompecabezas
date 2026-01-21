@@ -44,4 +44,47 @@ public abstract class Solucionador {
 
     // Método que cada algoritmo debe implementar con su lógica específica
     protected abstract boolean resolverInterno(Tablero tablero);
+
+    // Verifica si la pieza en (fila, columna) es compatible con sus vecinos ya
+    // colocados
+    protected boolean esCompatible(Tablero tablero, int fila, int columna) {
+        lineasEjecutadas++;
+        Pieza actual = tablero.getPieza(fila, columna);
+        asignaciones++;
+
+        // Verificar con pieza de arriba
+        lineasEjecutadas++;
+        comparaciones++;
+        if (fila > 0) {
+            lineasEjecutadas++;
+            Pieza arriba = tablero.getPieza(fila - 1, columna);
+            asignaciones++;
+
+            lineasEjecutadas++;
+            comparaciones++;
+            if (actual.arriba != arriba.abajo) {
+                lineasEjecutadas++;
+                return false;
+            }
+        }
+
+        // Verificar con pieza de la izquierda
+        lineasEjecutadas++;
+        comparaciones++;
+        if (columna > 0) {
+            lineasEjecutadas++;
+            Pieza izquierda = tablero.getPieza(fila, columna - 1);
+            asignaciones++;
+
+            lineasEjecutadas++;
+            comparaciones++;
+            if (actual.izquierda != izquierda.derecha) {
+                lineasEjecutadas++;
+                return false;
+            }
+        }
+
+        lineasEjecutadas++;
+        return true;
+    }
 }

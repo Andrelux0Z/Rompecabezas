@@ -122,10 +122,7 @@ public class FuerzaBrutaSolucionador extends Solucionador {
             // Verificar compatibilidad antes de continuar (poda)
             lineasEjecutadas++;
             if (esCompatible(tablero, fila, columna)) {
-                lineasEjecutadas++;
-                comparaciones++;
                 if (probarPermutaciones(tablero, indice + 1)) {
-                    lineasEjecutadas++;
                     return true;
                 }
             }
@@ -146,45 +143,4 @@ public class FuerzaBrutaSolucionador extends Solucionador {
         return false;
     }
 
-    // Verifica si la pieza es compatible con sus vecinos ya colocados
-    private boolean esCompatible(Tablero tablero, int fila, int columna) {
-        lineasEjecutadas++;
-        Pieza actual = tablero.getPieza(fila, columna);
-        asignaciones++;
-
-        // Verificar con pieza de arriba
-        lineasEjecutadas++;
-        comparaciones++;
-        if (fila > 0) {
-            lineasEjecutadas++;
-            Pieza arriba = tablero.getPieza(fila - 1, columna);
-            asignaciones++;
-
-            lineasEjecutadas++;
-            comparaciones++;
-            if (actual.arriba != arriba.abajo) {
-                lineasEjecutadas++;
-                return false;
-            }
-        }
-
-        // Verificar con pieza de la izquierda
-        lineasEjecutadas++;
-        comparaciones++;
-        if (columna > 0) {
-            lineasEjecutadas++;
-            Pieza izquierda = tablero.getPieza(fila, columna - 1);
-            asignaciones++;
-
-            lineasEjecutadas++;
-            comparaciones++;
-            if (actual.izquierda != izquierda.derecha) {
-                lineasEjecutadas++;
-                return false;
-            }
-        }
-
-        lineasEjecutadas++;
-        return true;
-    }
 }
