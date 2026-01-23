@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Solucionador que utiliza un algoritmo de avance rápido con heurística golosa y backtracking.
+ * Solucionador que utiliza un algoritmo de avance rápido con heurística golosa y retroceso.
  * 
  * ESTRATEGIA:
- * 1. Selecciona la celda vacía con menor número de candidatos válidos (MRV - Minimum Remaining Values)
+ * 1. Selecciona la celda vacía con menor número de candidatos válidos (VMR - Valores Mínimos Restantes)
  * 2. Genera candidatos compatibles para esa celda
  * 3. Prueba cada candidato recursivamente
- * 4. Si ningún candidato funciona, hace backtracking
+ * 4. Si ningún candidato funciona, hace retroceso
  * 
  * VENTAJAS:
- * - La heurística MRV reduce dramáticamente el espacio de búsqueda
+ * - La heurística VMR reduce dramáticamente el espacio de búsqueda
  * - Al elegir celdas con pocas opciones primero, detectamos fallos más temprano
  * - Más eficiente que fuerza bruta porque usa información del estado actual
  */
@@ -22,7 +22,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
     @Override
     protected boolean resolverInterno(Tablero tablero) {
         System.out.println();
-        System.out.println("Resolviendo con avance rápido (Greedy + Backtracking)...");
+        System.out.println("Resolviendo con avance rápido (Goloso + Retroceso)...");
         System.out.println();
 
         // Llamar al solucionador recursivo
@@ -31,14 +31,14 @@ public class AvanceRapidoSolucionador extends Solucionador {
     }
 
     /**
-     * FASE 4: Solucionador recursivo con backtracking
+     * FASE 4: Solucionador recursivo con retroceso
      * 
-     * Este método implementa el algoritmo principal de backtracking:
+     * Este método implementa el algoritmo principal de retroceso (backtracking):
      * 1. Si el tablero está completo, hemos encontrado la solución
-     * 2. Usa MRV para seleccionar la mejor celda a llenar
+     * 2. Usa VMR para seleccionar la mejor celda a llenar
      * 3. Genera candidatos compatibles para esa celda
      * 4. Prueba cada candidato recursivamente
-     * 5. Si un candidato falla, lo quita (backtracking) y prueba el siguiente
+     * 5. Si un candidato falla, lo quita (retroceso) y prueba el siguiente
      * 
      * @param tablero El tablero actual en proceso de resolución
      * @return true si se encuentra una solución, false si no hay solución posible
@@ -54,9 +54,9 @@ public class AvanceRapidoSolucionador extends Solucionador {
             return true; // ¡Solución encontrada!
         }
 
-        // FASE 3: Seleccionar la celda con menor número de candidatos válidos (heurística MRV)
+        // FASE 3: Seleccionar la celda con menor número de candidatos válidos (heurística VMR)
         lineasEjecutadas++;
-        CeldaConCandidatos mejorCelda = seleccionarCeldaMRV(tablero);
+        CeldaConCandidatos mejorCelda = seleccionarCeldaVMR(tablero);
         asignaciones++;
 
         // Si alguna celda no tiene candidatos válidos, este camino no tiene solución
@@ -64,7 +64,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
         comparaciones++;
         if (mejorCelda == null || mejorCelda.candidatos.isEmpty()) {
             lineasEjecutadas++;
-            return false; // Backtracking: este camino no funciona
+            return false; // Retroceso: este camino no funciona
         }
 
         // Intentar cada candidato para la celda seleccionada
@@ -90,7 +90,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
                 return true; // ¡Éxito! Propagar la solución hacia arriba
             }
 
-            // BACKTRACKING: este candidato no funcionó, deshacer cambios
+            // RETROCESO: este candidato no funcionó, deshacer cambios
             lineasEjecutadas++;
             tablero.quitarPieza(mejorCelda.fila, mejorCelda.columna);
             asignaciones++;
@@ -100,15 +100,15 @@ public class AvanceRapidoSolucionador extends Solucionador {
             asignaciones++;
         }
 
-        // Ningún candidato funcionó, hacer backtracking al nivel anterior
+        // Ningún candidato funcionó, hacer retroceso al nivel anterior
         lineasEjecutadas++;
         return false;
     }
 
     /**
-     * FASE 3: Selección de celda con heurística MRV (Minimum Remaining Values)
+     * FASE 3: Selección de celda con heurística VMR (Valores Mínimos Restantes)
      * 
-     * Esta heurística golosa (greedy) selecciona la celda vacía que tiene el menor
+     * Esta heurística golosa selecciona la celda vacía que tiene el menor
      * número de piezas candidatas válidas. Esto es efectivo porque:
      * - Reduce el factor de ramificación del árbol de búsqueda
      * - Detecta callejones sin salida más temprano (si una celda tiene 0 candidatos)
@@ -117,7 +117,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
      * @param tablero El tablero actual
      * @return La celda con menos candidatos válidos, o null si no hay celdas vacías
      */
-    private CeldaConCandidatos seleccionarCeldaMRV(Tablero tablero) {
+    private CeldaConCandidatos seleccionarCeldaVMR(Tablero tablero) {
         lineasEjecutadas++;
         
         CeldaConCandidatos mejorCelda = null;
@@ -144,7 +144,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
                     List<Pieza> candidatos = generarCandidatos(tablero, i, j);
                     asignaciones++;
                     
-                    // Actualizar si esta celda tiene menos candidatos (heurística MRV)
+                    // Actualizar si esta celda tiene menos candidatos (heurística VMR)
                     lineasEjecutadas++;
                     comparaciones++;
                     if (candidatos.size() < menorCantidadCandidatos) {
@@ -282,7 +282,7 @@ public class AvanceRapidoSolucionador extends Solucionador {
 
     /**
      * Clase auxiliar para almacenar información sobre una celda y sus candidatos.
-     * Se usa en la heurística MRV para rastrear qué celda tiene menos opciones.
+     * Se usa en la heurística VMR para rastrear qué celda tiene menos opciones.
      */
     private static class CeldaConCandidatos {
         int fila;
