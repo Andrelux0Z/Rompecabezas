@@ -16,7 +16,19 @@ public class main {
         System.out.println("- Valores en las piezas: 0 a " + maxValorPieza);
 
         // Crear y mostrar el puzzle mezclado
-        Tablero tableroOriginal = new Tablero(tamañoTablero, maxValorPieza);
+        Tablero tableroOriginal;
+        if (tamañoTablero == 3) {
+            // Usar tablero 3x3 fijo para comparaciones consistentes
+            if (maxValorPieza == 9) {
+                tableroOriginal = Tablero.crearTablero3x3FijoRango9();
+                System.out.println("(Usando tablero 3x3 fijo con valores 0-9)");
+            } else {
+                tableroOriginal = Tablero.crearTablero3x3FijoRango15();
+                System.out.println("(Usando tablero 3x3 fijo con valores 0-15)");
+            }
+        } else {
+            tableroOriginal = new Tablero(tamañoTablero, maxValorPieza);
+        }
         tableroOriginal.mostrarPiezasDisponibles();
 
         // Bucle para resolver con diferentes algoritmos
@@ -41,7 +53,10 @@ public class main {
                     solucionador = new AvanceRapidoSolucionador();
                     break;
                 case 3:
-                    solucionador = new GeneticoSolucionador();
+                    GeneticoSolucionador genetico = new GeneticoSolucionador();
+                    int modoGenetico = pedirModoGenetico(scanner);
+                    genetico.setModo(modoGenetico);
+                    solucionador = genetico;
                     break;
                 default:
                     solucionador = null;
@@ -125,6 +140,29 @@ public class main {
                     return 9;
                 } else if (opcion == 2) {
                     return 15;
+                }
+            } else {
+                scanner.next();
+            }
+
+            System.out.println("Opción no válida. Intente de nuevo.\n");
+        }
+    }
+
+    private static int pedirModoGenetico(Scanner scanner) {
+        int opcion;
+
+        while (true) {
+            System.out.println();
+            System.out.println("Seleccione el modo de ejecución del algoritmo genético:");
+            System.out.println("1. Normal (10 generaciones)");
+            System.out.println("2. Ilustrativo (muestra cada cruce y mutación)");
+            System.out.print("Opción (1-2): ");
+
+            if (scanner.hasNextInt()) {
+                opcion = scanner.nextInt();
+                if (opcion >= 1 && opcion <= 2) {
+                    return opcion;
                 }
             } else {
                 scanner.next();

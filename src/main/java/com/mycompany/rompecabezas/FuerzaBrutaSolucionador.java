@@ -6,11 +6,16 @@ import java.util.List;
 public class FuerzaBrutaSolucionador extends Solucionador {
 
     private long intentos;
+    private long podas;
 
     @Override
     public boolean resolverInterno(Tablero tablero) {
         lineasEjecutadas++;
         intentos = 0;
+        asignaciones++;
+
+        lineasEjecutadas++;
+        podas = 0;
         asignaciones++;
 
         lineasEjecutadas++;
@@ -24,7 +29,7 @@ public class FuerzaBrutaSolucionador extends Solucionador {
         lineasEjecutadas++;
         System.out.println();
         lineasEjecutadas++;
-        System.out.println("Resolviendo con fuerza bruta...");
+        System.out.println("Resolviendo con fuerza bruta (backtracking)...");
         lineasEjecutadas++;
         System.out.println("Total de piezas: " + totalPiezas);
         lineasEjecutadas++;
@@ -37,7 +42,13 @@ public class FuerzaBrutaSolucionador extends Solucionador {
         asignaciones++;
 
         lineasEjecutadas++;
-        System.out.println("Intentos realizados: " + intentos);
+        System.out.println();
+        lineasEjecutadas++;
+        System.out.println("=== ESTADÍSTICAS DE BACKTRACKING ===");
+        lineasEjecutadas++;
+        System.out.println("Alternativas evaluadas: " + intentos);
+        lineasEjecutadas++;
+        System.out.println("Podas realizadas:       " + podas);
 
         lineasEjecutadas++;
         return resuelto;
@@ -57,13 +68,10 @@ public class FuerzaBrutaSolucionador extends Solucionador {
         asignaciones++;
 
         lineasEjecutadas++;
-        asignaciones++;
         for (int i = 2; i <= n; i++) {
             comparaciones++;
             lineasEjecutadas++;
             resultado *= i;
-            asignaciones++;
-            lineasEjecutadas++;
             asignaciones++;
         }
         comparaciones++;
@@ -108,7 +116,6 @@ public class FuerzaBrutaSolucionador extends Solucionador {
 
         // Probar cada pieza disponible en esta posición
         lineasEjecutadas++;
-        asignaciones++;
         for (int i = 0; i < piezasDisponibles.size(); i++) {
             comparaciones++;
 
@@ -121,10 +128,20 @@ public class FuerzaBrutaSolucionador extends Solucionador {
 
             // Verificar compatibilidad antes de continuar (poda)
             lineasEjecutadas++;
+            comparaciones++;
             if (esCompatible(tablero, fila, columna)) {
+                lineasEjecutadas++;
+                intentos++;
+                asignaciones++;
+
                 if (probarPermutaciones(tablero, indice + 1)) {
                     return true;
                 }
+            } else {
+                // Poda: la pieza no es compatible, no seguimos por esta rama
+                lineasEjecutadas++;
+                podas++;
+                asignaciones++;
             }
 
             // Quitar pieza y devolverla
@@ -133,9 +150,6 @@ public class FuerzaBrutaSolucionador extends Solucionador {
 
             lineasEjecutadas++;
             piezasDisponibles.add(i, pieza);
-
-            lineasEjecutadas++;
-            asignaciones++;
         }
         comparaciones++;
 
