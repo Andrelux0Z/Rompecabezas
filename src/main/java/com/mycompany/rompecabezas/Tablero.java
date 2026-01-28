@@ -226,4 +226,86 @@ public class Tablero {
     private Tablero() {
         this.piezasDisponibles = new ArrayList<>();
     }
+
+    // Crea un tablero 3x3 fijo con valores 0-9 para comparaciones consistentes
+    // Tablero resuelto:
+    // [3,2,5,1] [1,5,4,7] [7,4,2,3]
+    // [1,8,6,4] [7,6,9,2] [3,9,1,5]
+    // [4,3,7,0] [2,7,8,6] [5,8,4,9]
+    public static Tablero crearTablero3x3Fijo() {
+        return crearTablero3x3FijoRango9();
+    }
+
+    public static Tablero crearTablero3x3FijoRango9() {
+        Tablero tablero = new Tablero();
+        tablero.tamaño = 3;
+        tablero.piezas = new Pieza[3][3];
+        tablero.piezasDisponibles = new ArrayList<>();
+
+        // Crear las 9 piezas con valores fijos 0-9 (arriba, izquierda, derecha, abajo)
+        // Fila 0
+        Pieza p00 = new Pieza(3, 2, 5, 1);
+        Pieza p01 = new Pieza(1, 5, 4, 7);
+        Pieza p02 = new Pieza(7, 4, 2, 3);
+        // Fila 1
+        Pieza p10 = new Pieza(1, 8, 6, 4);
+        Pieza p11 = new Pieza(7, 6, 9, 2);
+        Pieza p12 = new Pieza(3, 9, 1, 5);
+        // Fila 2
+        Pieza p20 = new Pieza(4, 3, 7, 0);
+        Pieza p21 = new Pieza(2, 7, 8, 6);
+        Pieza p22 = new Pieza(5, 8, 4, 9);
+
+        // Añadir en orden mezclado (fijo para reproducibilidad)
+        tablero.piezasDisponibles.add(p11); // centro
+        tablero.piezasDisponibles.add(p02); // esquina
+        tablero.piezasDisponibles.add(p20); // esquina
+        tablero.piezasDisponibles.add(p01); // borde
+        tablero.piezasDisponibles.add(p10); // borde
+        tablero.piezasDisponibles.add(p22); // esquina
+        tablero.piezasDisponibles.add(p00); // esquina
+        tablero.piezasDisponibles.add(p12); // borde
+        tablero.piezasDisponibles.add(p21); // borde
+
+        return tablero;
+    }
+
+    // Crea un tablero 3x3 fijo con valores 0-15 para comparaciones consistentes
+    // Tablero resuelto:
+    // [12, 3,10, 5] [ 5,10,14, 8] [ 8,14, 2,11]
+    // [ 5,15,13, 9] [ 8,13, 6, 1] [11, 6, 4, 7]
+    // [ 9, 0,12, 3] [ 1,12,15,10] [ 7,15,11, 2]
+    public static Tablero crearTablero3x3FijoRango15() {
+        Tablero tablero = new Tablero();
+        tablero.tamaño = 3;
+        tablero.piezas = new Pieza[3][3];
+        tablero.piezasDisponibles = new ArrayList<>();
+
+        // Crear las 9 piezas con valores fijos 0-15 (arriba, izquierda, derecha, abajo)
+        // Fila 0
+        Pieza p00 = new Pieza(12, 3, 10, 5);
+        Pieza p01 = new Pieza(5, 10, 14, 8);
+        Pieza p02 = new Pieza(8, 14, 2, 11);
+        // Fila 1
+        Pieza p10 = new Pieza(5, 15, 13, 9);
+        Pieza p11 = new Pieza(8, 13, 6, 1);
+        Pieza p12 = new Pieza(11, 6, 4, 7);
+        // Fila 2
+        Pieza p20 = new Pieza(9, 0, 12, 3);
+        Pieza p21 = new Pieza(1, 12, 15, 10);
+        Pieza p22 = new Pieza(7, 15, 11, 2);
+
+        // Añadir en orden mezclado (fijo para reproducibilidad)
+        tablero.piezasDisponibles.add(p11); // centro
+        tablero.piezasDisponibles.add(p02); // esquina
+        tablero.piezasDisponibles.add(p20); // esquina
+        tablero.piezasDisponibles.add(p01); // borde
+        tablero.piezasDisponibles.add(p10); // borde
+        tablero.piezasDisponibles.add(p22); // esquina
+        tablero.piezasDisponibles.add(p00); // esquina
+        tablero.piezasDisponibles.add(p12); // borde
+        tablero.piezasDisponibles.add(p21); // borde
+
+        return tablero;
+    }
 }

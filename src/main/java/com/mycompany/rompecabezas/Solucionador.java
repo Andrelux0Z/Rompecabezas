@@ -51,7 +51,8 @@ public abstract class Solucionador {
         System.out.println("Comparaciones:                   " + comparaciones);
         System.out.println("Líneas ejecutadas:               " + lineasEjecutadas);
         System.out.printf("Tiempo de ejecución:             %.3f ms%n", tiempoMs);
-        System.out.println("Memoria adicional consumida:     " + memoriaUsada + " bytes (" + MemoryTracker.formatBytes(memoriaUsada) + ")");
+        System.out.println("Memoria adicional consumida:     " + memoriaUsada + " bytes ("
+                + MemoryTracker.formatBytes(memoriaUsada) + ")");
     }
 
     // Método que cada algoritmo debe implementar con su lógica específica
