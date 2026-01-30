@@ -98,17 +98,17 @@ public class main {
 
     private static int pedirTamanoTablero(Scanner scanner) {
         int opcion;
-        int[] opcionesTamano = { 3, 5, 10, 15, 30, 60, 100 };
+        int[] opcionesTamano = { 3, 5, 7, 10, 15, 30, 60 };
 
         while (true) {
             System.out.println("Seleccione el tamaño del tablero:");
             System.out.println("1. 3x3");
             System.out.println("2. 5x5");
-            System.out.println("3. 10x10");
-            System.out.println("4. 15x15");
-            System.out.println("5. 30x30");
-            System.out.println("6. 60x60");
-            System.out.println("7. 100x100");
+            System.out.println("3. 7x7");
+            System.out.println("4. 10x10");
+            System.out.println("5. 15x15");
+            System.out.println("6. 30x30");
+            System.out.println("7. 60x60");
             System.out.print("Opción (1-7): ");
 
             if (scanner.hasNextInt()) {
