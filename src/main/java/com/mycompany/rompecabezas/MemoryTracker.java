@@ -2,38 +2,27 @@ package com.mycompany.rompecabezas;
 
 import java.lang.management.ManagementFactory;
 
+// Clase para medir uso de memoria
 public class MemoryTracker {
 
-    /**
-     * Heap usado instantáneo (NO es "allocated bytes").
-     * Se deja por compatibilidad.
-     */
+    // Retorna memoria heap usada actualmente
     public static long usedMemory() {
         Runtime rt = Runtime.getRuntime();
         return rt.totalMemory() - rt.freeMemory();
     }
 
-    /**
-     * Mide bytes ASIGNADOS (allocated) por el hilo actual durante task.run().
-     * Ejecuta la tarea UNA SOLA VEZ.
-     *
-     * @param task Runnable a medir
-     * @return bytes asignados por el hilo durante task.run() (>= 0)
-     */
+    // Mide bytes asignados durante la ejecución de una tarea
     public static long measure(Runnable task) {
         java.lang.management.ThreadMXBean baseBean = ManagementFactory.getThreadMXBean();
 
-        // Las APIs de allocated bytes están en com.sun.management.ThreadMXBean
         if (!(baseBean instanceof com.sun.management.ThreadMXBean)) {
-            throw new UnsupportedOperationException(
-                "Allocated-bytes tracking no disponible en esta JVM (ThreadMXBean no es com.sun.management.ThreadMXBean)."
-            );
+            throw new UnsupportedOperationException("Tracking de memoria no disponible en esta JVM.");
         }
 
         com.sun.management.ThreadMXBean bean = (com.sun.management.ThreadMXBean) baseBean;
 
         if (!bean.isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException("Allocated-bytes tracking no soportado por esta JVM.");
+            throw new UnsupportedOperationException("Tracking de memoria no soportado.");
         }
 
         if (!bean.isThreadAllocatedMemoryEnabled()) {
@@ -51,9 +40,7 @@ public class MemoryTracker {
         return Math.max(0, diff);
     }
 
-    /**
-     * Convierte bytes a una representación legible (KB, MB, GB).
-     */
+    // Convierte bytes a formato legible
     public static String formatBytes(long bytes) {
         if (bytes < 1024) {
             return bytes + " bytes";
